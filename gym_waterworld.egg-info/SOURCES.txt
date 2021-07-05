@@ -1,0 +1,7 @@
+README.md
+setup.py
+gym_waterworld.egg-info/PKG-INFO
+gym_waterworld.egg-info/SOURCES.txt
+gym_waterworld.egg-info/dependency_links.txt
+gym_waterworld.egg-info/requires.txt
+gym_waterworld.egg-info/top_level.txt

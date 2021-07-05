@@ -16,30 +16,41 @@ RIGHT = 2
 UP = 3
 
 REWARDS = {
-    'B' : 5,
-    'W' : 0,
-    'L' : -10,
-    'G' : 50,
+    b'S': 0,
+    b'B' : 5,
+    b'W' : 0,
+    b'R' : 0,
+    b'L' : -5,
+    b'G' : 1,
 }
 
-MAP = [
-        "SWBBWWWW",
-        "WBBBBLLL",
-        "LLBWBWWW",
-        "WWWWWWLL",
-        "LLLWWWWW",
-        "WWWWBBWB",
-        "LWLWWWWW",
-        "WWWWWWWG"
-]
+MAP = {
+    "4x4": [
+        "SWBB",
+        "BBRW",
+        "LRLR",
+        "WWRG"
+    ],
+    "8x8": [
+        "SWBBWRWW",
+        "WBWBRLRL",
+        "LLBWWRLR",
+        "WWWWWRLR",
+        "LLLWWWRR",
+        "WWRWBBRL",
+        "LRLRWBWR",
+        "WWRWWBWG"
+    ]
+}
 
 class WaterworldEnv(discrete.DiscreteEnv):
     metadata = {'render.modes': ['human', 'ansi']}
 
-    def __init__(self):
-        self.desc = MAP = np.asarray(desc, dtype='c')
+    def __init__(self, desc=None, map_name="4x4"):
+        desc = MAP[map_name]
+        self.desc = desc = np.asarray(desc, dtype='c')
         self.nrow, self.ncol = nrow, ncol = desc.shape
-        self.reward_range = (-10, 50)
+        self.reward_range = (-5, 5)
 
         nA = 4
         nS = nrow * ncol
@@ -67,10 +78,10 @@ class WaterworldEnv(discrete.DiscreteEnv):
             newrow, newcol = inc(row, col, action)
             newstate = to_s(newrow, newcol)
             newletter = desc[newrow, newcol]
-            done = bytes(newletter) in b'GH'
+            done = bytes(newletter) in b'GL'
             reward = REWARDS[newletter]
-            # reward = float(newletter == b'G')
             return newstate, reward, done
+
 
         for row in range(nrow):
             for col in range(ncol):
@@ -78,8 +89,8 @@ class WaterworldEnv(discrete.DiscreteEnv):
                 for a in range(4):
                     li = P[s][a]
                     letter = desc[row, col]
-                    if letter in b'GH':
-                        li.append((50.0, s, 0, True))
+                    if letter in b'GL':
+                        li.append((1.0, s, 0, True))
                     else:
                         li.append((
                             1., *update_probability_matrix(row, col, a)

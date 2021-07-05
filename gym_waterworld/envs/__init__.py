@@ -1,2 +1,2 @@
-from gym_foo.envs.waterworld_env import WaterworldEnv
-from gym_foo.envs.waterworld_extrahard_env import WaterworldExtraHardEnv
+from gym_waterworld.envs.waterworld_env import WaterworldEnv
+# from gym_waterworld.envs.waterworld_extrahard_env import WaterworldExtraHardEnv
