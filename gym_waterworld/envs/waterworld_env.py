@@ -17,40 +17,53 @@ UP = 3
 
 REWARDS = {
     b'S': 0,
-    b'B' : 5,
     b'W' : 0,
-    b'R' : 0,
+    b'R' : -1,
     b'L' : -5,
-    b'G' : 1,
+    b'G' : 10,
 }
 
 MAP = {
-    "4x4": [
-        "SWBB",
-        "BBRW",
-        "LRLR",
-        "WWRG"
+    "4x4:1": [
+        "SWWR",
+        "WWRL",
+        "RWRL",
+        "LRWG"
     ],
-    "8x8": [
-        "SWBBWRWW",
-        "WBWBRLRL",
-        "LLBWWRLR",
-        "WWWWWRLR",
-        "LLLWWWRR",
-        "WWRWBBRL",
-        "LRLRWBWR",
-        "WWRWWBWG"
+    "4x4:2": [
+        "SWRL",
+        "RWWR",
+        "LRWW",
+        "LRWG"
+    ],
+    "4x4:3": [
+        "SRLL",
+        "WWRR",
+        "RWWW",
+        "LRWG"
+    ],
+    "4x4:4": [
+        "SWWR",
+        "WLWL",
+        "WWRL",
+        "LRWG"
+    ],
+    "4x4:5": [
+        "SWWL",
+        "LRWW",
+        "RWRW",
+        "WRLG"
     ]
 }
 
 class WaterworldEnv(discrete.DiscreteEnv):
     metadata = {'render.modes': ['human', 'ansi']}
 
-    def __init__(self, desc=None, map_name="4x4"):
+    def __init__(self, desc=None, map_name="4x4:1"):
         desc = MAP[map_name]
         self.desc = desc = np.asarray(desc, dtype='c')
         self.nrow, self.ncol = nrow, ncol = desc.shape
-        self.reward_range = (-5, 5)
+        self.reward_range = (-5, 10)
 
         nA = 4
         nS = nrow * ncol
